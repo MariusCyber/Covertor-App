@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1 style="text-align: center">Covertor in baza 2 si reverso</h1>
+    <div style="display: flex; justify-content: center">
+      <div
+        style="
+          background-color: rgb(244, 238, 238);
+          height: 700px;
+          width: 30%;
+          padding: 15px;
+          border-radius: 2%;
+        "
+      >
+        <div style="display: flex; justify-content: space-between">
+          <div style="display: flex; flex-direction: column">
+            <label for="din"><b>din</b></label>
+            <select
+              name="din"
+              id="din"
+              style="
+                font-size: 16px;
+                border: none;
+                border-radius: 6px;
+                padding: 10px 10px;
+              "
+            >
+              <option value="zecimal">Zecimal</option>
+              <option value="binar">Binar</option>
+              <option value="octal">Octal</option>
+              <option value="hexazecimal">Hexazecimal</option>
+              <option value="text">Text</option>
+            </select>
+          </div>
+
+          <div style="display: flex; flex-direction: column">
+            <label for="in"><b>in</b></label>
+            <select
+              name="in"
+              id="in"
+              style="
+                font-size: 16px;
+                border: none;
+                border-radius: 6px;
+                padding: 10px 40px;
+              "
+            >
+              <option value="binar">Binar</option>
+              <option value="zecimal">Zecimal</option>
+              <option value="octal">Octal</option>
+              <option value="hexazecimal">Hexazecimal</option>
+              <option value="text">Text</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <div>Introduceti o valoare <span id="conversion">zecimala</span></div>
+        </div>
+        <div style="display: flex; flex-direction: column">
+          <div style="display: flex; flex-direction: row">
+            <input
+              type="text"
+              name=""
+              id=""
+              style="
+                height: 60px;
+                width: 98%;
+                border: 1px solid #c7cbcf;
+                border-radius: 6px;
+                font-size: 20px;
+              "
+              oninput="captureInput(event)"
+            />
+            <span
+              id="first-swapper"
+              style="
+                background-color: white;
+                display: flex;
+                flex-direction: column-reverse;
+                border: 1px solid #c7cbcf;
+                font-size: 20px;
+                border-radius: 4px;
+                width: 20px;
+              "
+              >10</span
+            >
+          </div>
+
+          <div style="padding: 5px">
+            <button
+              style="
+                border: none;
+                border-radius: 6px;
+                color: white;
+                background-color: #28a745;
+                padding: 10px;
+              "
+              onclick="convert()"
+            >
+              Convert
+            </button>
+            <button
+              style="
+                border: none;
+                border-radius: 6px;
+                color: white;
+                background-color: #6c757d;
+                padding: 10px;
+              "
+              onclick="reset()"
+            >
+              Reset
+            </button>
+            <button
+              style="
+                border: none;
+                border-radius: 2%;
+                color: white;
+                background-color: #6c757d;
+                padding: 10px;
+              "
+              onclick="swap()"
+            >
+              Swap
+            </button>
+          </div>
+          <div>Rezultatul in baza <span id="base-result">2</span></div>
+          <div style="display: flex; flex-direction: row">
+            <div
+              id="rezultat"
+              style="
+                width: 98%;
+                height: 60px;
+                background-color: white;
+                border: 1px solid #c7cbcf;
+                border-radius: 6px;
+                color: black;
+                font-size: 20px;
+              "
+            ></div>
+            <span
+              id="secound-swapper"
+              style="
+                background-color: white;
+                display: flex;
+                flex-direction: column-reverse;
+                border: 1px solid #c7cbcf;
+                font-size: 20px;
+                border-radius: 4px;
+                width: 20px;
+              "
+              >2</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let n,
+        putere,
+        rezultat = 0,
+        cat;
+
+      const convert = () => {
+        const key = document.getElementById("in").value;
+        const operationResult = document.getElementById("rezultat");
+        switch (key) {
+          case "binar":
+            rezultat = 0;
+            n = Number(n);
+            putere = 1;
+            while (n) {
+              cat = n % 2;
+              rezultat = rezultat + cat * putere;
+              putere = putere * 10;
+              n = Math.floor(n / 2);
+            }
+             operationResult.innerHTML = rezultat;
+            break;
+
+          case "zecimal":
+            rezultat = 0;
+            n = Number(n);
+            putere = 1;
+            while (n) {
+              cat = n % 10;
+              rezultat = rezultat + putere * cat;
+              putere = putere * 2;
+              n = Math.floor(n / 10);
+            }
+           operationResult.innerHTML = rezultat;
+            break;
+
+          case "octal":
+            rezultat = 0;
+            n = Number(n);
+            putere = 1;
+            while (n)
+            {
+              cat = n % 8;
+              rezultat = rezultat + putere * cat;
+              putere = putere * 10;
+              n = Math.floor(n / 8);
+            }
+            operationResult.innerHTML= rezultat;
+            break;
+        }
+      };
+
+      const captureInput = (event) => {
+        n = event.target.value;
+      };
+
+      const reset = () => {
+        document.getElementById("rezultat").innerHTML = "";
+      };
+
+      const swap = () => {
+        let selectDin = document.getElementById("din");
+        let selectIn = document.getElementById("in");
+
+        let temp = selectDin.value;
+        selectDin.value = selectIn.value;
+        selectIn.value = temp;
+        console.log("select din: " + selectDin.value);
+        console.log("select in: " + selectIn.value);
+
+        if (selectIn.value === "binar") {
+          document.getElementById("first-swapper").innerHTML = "10";
+          document.getElementById("secound-swapper").innerHTML = "2";
+          document.getElementById("conversion").innerHTML = "zecimala";
+          document.getElementById("base-result").innerHTML = "2";
+        } else {
+          document.getElementById("first-swapper").innerHTML = "2";
+          document.getElementById("secound-swapper").innerHTML = "10";
+          document.getElementById("conversion").innerHTML = "binara";
+          document.getElementById("base-result").innerHTML = "10";
+        }
+      };
+    </script>
+  </body>
+</html>

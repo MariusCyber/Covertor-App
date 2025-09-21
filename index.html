@@ -9,16 +9,17 @@
     <h1 style="text-align: center">Covertor in baza 2 si reverso</h1>
     <div style="display: flex; justify-content: center">
       <div
+        id="centerDiv"
         style="
           background-color: rgb(244, 238, 238);
-          height: 700px;
+          height: 550px;
           width: 30%;
           padding: 15px;
           border-radius: 2%;
         "
       >
-        <div style="display: flex; justify-content: space-between">
-          <div style="display: flex; flex-direction: column">
+        <div id="selectDiv" style="display: flex; justify-content: space-between">
+          <div  style="display: flex; flex-direction: column">
             <label for="din"><b>din</b></label>
             <select
               name="din"
@@ -27,10 +28,11 @@
                 font-size: 16px;
                 border: none;
                 border-radius: 6px;
-                padding: 10px 10px;
+                padding: 10px;
+                cursor: pointer;
               "
             >
-              <option value="zecimal">Zecimal</option>
+              <option id="zecimal" value="zecimal">Zecimal</option>
               <option value="binar">Binar</option>
               <option value="octal">Octal</option>
               <option value="hexazecimal">Hexazecimal</option>
@@ -47,7 +49,8 @@
                 font-size: 16px;
                 border: none;
                 border-radius: 6px;
-                padding: 10px 40px;
+                padding: 10px;
+                cursor: pointer;
               "
             >
               <option value="binar">Binar</option>
@@ -63,19 +66,19 @@
         </div>
         <div style="display: flex; flex-direction: column">
           <div style="display: flex; flex-direction: row">
-            <input
+            <textarea
               type="text"
-              name=""
-              id=""
+              id="inputText"
               style="
                 height: 60px;
-                width: 98%;
+                width: 100%;
+                resize: none;
                 border: 1px solid #c7cbcf;
                 border-radius: 6px;
                 font-size: 20px;
               "
               oninput="captureInput(event)"
-            />
+            ></textarea>
             <span
               id="first-swapper"
               style="
@@ -91,39 +94,48 @@
             >
           </div>
 
-          <div style="padding: 5px">
-            <button
+          <div id="functionButtons" style="padding: 5px">
+            <button class="handleButtons"
               style="
                 border: none;
                 border-radius: 6px;
                 color: white;
                 background-color: #28a745;
                 padding: 10px;
+                cursor: pointer;
               "
+              onmouseover="this.style.background='deepskyblue';"
+              onmouseout="this.style.background='#28a745';"
               onclick="convert()"
             >
               Convert
             </button>
-            <button
+            <button class="handleButtons"
               style="
                 border: none;
                 border-radius: 6px;
                 color: white;
                 background-color: #6c757d;
                 padding: 10px;
+                cursor: pointer;
               "
+              onmouseover="this.style.background='#5a6268';"
+              onmouseout="this.style.background='#6c757d';"
               onclick="reset()"
             >
               Reset
             </button>
-            <button
+            <button class="handleButtons"
               style="
                 border: none;
-                border-radius: 2%;
+                border-radius: 6px;
                 color: white;
                 background-color: #6c757d;
                 padding: 10px;
+                cursor: pointer;
               "
+              onmouseover="this.style.background='#5a6268';"
+              onmouseout="this.style.background='#6c757d';"
               onclick="swap()"
             >
               Swap
@@ -141,6 +153,11 @@
                 border-radius: 6px;
                 color: black;
                 font-size: 20px;
+
+                word-break: break-all;
+                white-space: normal;
+                overflow-wrap: break-word;
+                overflow-y: auto;
               "
             ></div>
             <span
@@ -162,53 +179,58 @@
     </div>
 
     <script>
-      let n,
-        putere,
-        rezultat = 0,
-        cat;
+      let n;
+      let rezultat = 0n;
+      let putere = 1n;
 
       const convert = () => {
         const key = document.getElementById("in").value;
         const operationResult = document.getElementById("rezultat");
+
+        if (n.startsWith("-")) {
+          alert("Numarul trebuie sa fie pozitiv");
+          return;
+        }
+
+        n = BigInt(n);
+        let rezultat = 0n;
+        let putere = 1n;
+
         switch (key) {
           case "binar":
-            rezultat = 0;
-            n = Number(n);
-            putere = 1;
-            while (n) {
-              cat = n % 2;
+            rezultat = 0n;
+            putere = 1n;
+            while (n > 0n) {
+              cat = n % 2n;
               rezultat = rezultat + cat * putere;
-              putere = putere * 10;
-              n = Math.floor(n / 2);
+              putere = putere * 10n;
+              n = n / 2n;
             }
-             operationResult.innerHTML = rezultat;
+            operationResult.innerHTML = rezultat.toString();
             break;
 
           case "zecimal":
-            rezultat = 0;
-            n = Number(n);
-            putere = 1;
-            while (n) {
-              cat = n % 10;
+            rezultat = 0n;
+            putere = 1n;
+            while (n > 0n) {
+              cat = n % 10n;
               rezultat = rezultat + putere * cat;
-              putere = putere * 2;
-              n = Math.floor(n / 10);
+              putere = putere * 2n;
+              n = n / 10n;
             }
-           operationResult.innerHTML = rezultat;
+            operationResult.innerHTML = rezultat.toString();
             break;
 
           case "octal":
-            rezultat = 0;
-            n = Number(n);
-            putere = 1;
-            while (n)
-            {
-              cat = n % 8;
+            rezultat = 0n;
+            putere = 1n;
+            while (n > 0n) {
+              cat = n % 8n;
               rezultat = rezultat + putere * cat;
-              putere = putere * 10;
-              n = Math.floor(n / 8);
+              putere = putere * 10n;
+              n = n / 8n;
             }
-            operationResult.innerHTML= rezultat;
+            operationResult.innerHTML = rezultat.toString();
             break;
         }
       };
@@ -219,6 +241,7 @@
 
       const reset = () => {
         document.getElementById("rezultat").innerHTML = "";
+        document.getElementById("inputText").value = "";
       };
 
       const swap = () => {
@@ -228,8 +251,6 @@
         let temp = selectDin.value;
         selectDin.value = selectIn.value;
         selectIn.value = temp;
-        console.log("select din: " + selectDin.value);
-        console.log("select in: " + selectIn.value);
 
         if (selectIn.value === "binar") {
           document.getElementById("first-swapper").innerHTML = "10";
@@ -244,5 +265,72 @@
         }
       };
     </script>
+    <style>
+      @media (max-width: 336px)
+      {
+        #selectDiv {
+          display: flex;
+          flex-direction: column;
+        }
+
+      }
+      @media (max-width: 480px) {
+        #centerdiv {
+          width: 50%;
+        }
+
+        #din {
+          width: 50px;
+          font-size: 8px !important;
+          padding: 5px 0px !important;
+        }
+
+        #in {
+          width: 50px;
+          font-size: 8px !important;
+          padding: 5px 0px !important;
+        }
+
+        select option {
+          font-size: 6px;
+        }
+        #functionButtons {
+          display: flex;
+          flex-direction: column;
+        }
+      }
+
+      @media (min-width: 481px) and (max-width: 768px) {
+         #din {
+          width: fit-content;
+          font-size: 12px !important;
+          padding: 5px 0px !important;
+        }
+
+        #in {
+          width: fit-content;
+          font-size: 12px !important;
+          padding: 5px 0px !important;
+        }
+        .handleButtons {
+          font-size: 6px;
+        }
+        
+      }
+
+      @media (min-width: 769px) and (max-width: 1000px) {
+         #din {
+          width: fit-content;
+          font-size: 14px !important;
+          padding: 5px 0px !important;
+        }
+
+        #in {
+          width: fit-content;
+          font-size: 14px !important;
+          padding: 5px 0px !important;
+        }
+      }
+    </style>
   </body>
 </html>
